@@ -18,6 +18,8 @@ public class Tweet {
     @JoinColumn(name = "user_id")
     private User user;
 
+    private String content;
+
     @CreationTimestamp
     private Instant creationTimestamp;
 
@@ -27,6 +29,14 @@ public class Tweet {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public User getUser() {

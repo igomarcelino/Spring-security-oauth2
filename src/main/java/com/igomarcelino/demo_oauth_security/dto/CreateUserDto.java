@@ -1,4 +1,3 @@
 package com.igomarcelino.demo_oauth_security.dto;
 
-public class CreateUserDto {
-}
+public record CreateUserDto (String username, String password){}

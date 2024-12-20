@@ -1,4 +1,4 @@
-package com.igomarcelino.demo_oauth_security.controller;
+package com.igomarcelino.demo_oauth_security.dto;
 
-public record CreateTweetDTO() {
+public record CreateTweetDTO(String content) {
 }

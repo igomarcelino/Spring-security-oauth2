@@ -2,6 +2,7 @@ package com.igomarcelino.demo_oauth_security.controller;
 
 import com.igomarcelino.demo_oauth_security.dto.LoginRequestDTO;
 import com.igomarcelino.demo_oauth_security.dto.LoginResponseDTO;
+import com.igomarcelino.demo_oauth_security.entities.Roles;
 import com.igomarcelino.demo_oauth_security.repository.UserRepository;
 import com.nimbusds.jwt.JWTClaimsSet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.time.Instant;
+import java.util.stream.Collectors;
 
 @RestController
 public class TokenController {
@@ -44,10 +46,16 @@ public class TokenController {
         var now = Instant.now();
         var expiresIn = 300l;
 
+        var scope = user.get().getRolesSet().
+                stream().
+                map(Roles::getRoleName).
+                collect(Collectors.joining(" "));
+
         var claims = JwtClaimsSet.builder().
                 issuer("backendDemo-Spring").
                 subject(user.get().getId().toString())
                 .expiresAt(now.plusSeconds(expiresIn)).
+                claim("scope",scope).
                 issuedAt(now).build();
 
         var jwtValue = jwtEncoder.encode(JwtEncoderParameters.from(claims)).getTokenValue();
